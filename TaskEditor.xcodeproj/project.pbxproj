@@ -48,6 +48,7 @@
 		3A3A22AE2C85B6D7007F6D83 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3A22AD2C85B6D7007F6D83 /* ProfileView.swift */; };
 		3A3A22B02C85B6DE007F6D83 /* MemoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3A22AF2C85B6DE007F6D83 /* MemoListView.swift */; };
 		3A3A22B22C85B6E7007F6D83 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3A22B12C85B6E7007F6D83 /* HomeView.swift */; };
+		3A3A22B62C8810FB007F6D83 /* VXColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3A22B52C8810FB007F6D83 /* VXColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +72,7 @@
 		3A3A22AD2C85B6D7007F6D83 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		3A3A22AF2C85B6DE007F6D83 /* MemoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListView.swift; sourceTree = "<group>"; };
 		3A3A22B12C85B6E7007F6D83 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		3A3A22B52C8810FB007F6D83 /* VXColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VXColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +172,8 @@
 		3A3A225B2C858EAC007F6D83 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				3A3A22B42C880F89007F6D83 /* View */,
+				3A3A22B32C880F81007F6D83 /* Constant */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -259,6 +263,21 @@
 				3A3A22A92C85B669007F6D83 /* MainTabView.swift */,
 			);
 			path = Tab;
+			sourceTree = "<group>";
+		};
+		3A3A22B32C880F81007F6D83 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				3A3A22B52C8810FB007F6D83 /* VXColor.swift */,
+			);
+			path = Constant;
+			sourceTree = "<group>";
+		};
+		3A3A22B42C880F89007F6D83 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,6 +389,7 @@
 				3A3A22AE2C85B6D7007F6D83 /* ProfileView.swift in Sources */,
 				3A3A22A02C85B625007F6D83 /* MemoListViewModel.swift in Sources */,
 				3A3A22A82C85B658007F6D83 /* TodoListView.swift in Sources */,
+				3A3A22B62C8810FB007F6D83 /* VXColor.swift in Sources */,
 				3A3A224E2C858E5F007F6D83 /* ContentView.swift in Sources */,
 				3A3A224C2C858E5F007F6D83 /* TaskEditorApp.swift in Sources */,
 				3A3A229E2C85B61C007F6D83 /* HomeViewModel.swift in Sources */,
