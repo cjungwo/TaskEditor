@@ -21,7 +21,7 @@ class Task: Script {
     taskType: String,
     dueDate: Date,
     priorityLevel: Int,
-    isDone: Bool
+    isDone: Bool = false
   ) {
     self.taskType = taskType
     self.dueDate = dueDate

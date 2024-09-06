@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct User {
+struct User: Identifiable, Equatable {
   let id: String = UUID().uuidString
   var name: String
   var birthDate: Date
   var gender: Bool
   var job: String
   var position: String
-  var typePriorityList: [String]
+  var typePriorityList: [String] // TODO: - enum
 
   init(
     name: String,
