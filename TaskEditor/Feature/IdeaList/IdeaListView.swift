@@ -8,8 +8,44 @@
 import SwiftUI
 
 struct IdeaListView: View {
+  @State var text: String = ""
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+      NavigationStack {
+        // TODO: - priority sorting
+        List {
+          ForEach(Mocks.mockIdeaList, id: \.id) { idea in
+            HStack {
+              VStack(alignment: .leading) {
+                Text(idea.title)
+                  .bold()
+
+                if idea.content != nil {
+                  Text(idea.content!)
+                    .font(.subheadline)
+                    .lineLimit(1)
+                }
+              }
+
+              Spacer()
+
+              Text("\(idea.createdDate.formatted(date: .abbreviated, time: .omitted))")
+            }
+          }
+          .onDelete(perform: { indexSet in
+            //
+          })
+        }
+        .searchable(text: $text)
+        .navigationTitle("Idea List")
+        .toolbar {
+          ToolbarItem {
+            Button("Create") {
+              // TODO: - link CreateTaskView or CreateTaskSheet
+            }
+          }
+        }
+      }
     }
 }
 
