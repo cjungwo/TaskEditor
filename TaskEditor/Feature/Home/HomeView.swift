@@ -9,12 +9,15 @@ import SwiftUI
 
 struct HomeView: View {
   var body: some View {
-    VStack {
-      HeaderView()
+    NavigationStack {
+      VStack {
+        //      HeaderView()
+        GreetingView()
+          .padding(.bottom)
 
-      GreetingView()
-
-      TodayTaskListView()
+        TodayTaskListView()
+      }
+      .navigationTitle("TaskEditor")
     }
   }
 }
@@ -40,20 +43,33 @@ private struct GreetingView: View {
       Text("Inspiring Idea")
         .font(.system(size: 24))
 
-      Text(Mocks.mockIdeaList[1].title)
+      Text(Mocks.mockIdeaList.shuffled().first!.title)
+        .frame(width: 300)
         .frame(minHeight: 120)
+        .background(.pink.opacity(0.3).gradient)
+        .clipShape(.buttonBorder)
     }
   }
 }
 
 // MARK: - TodayTaskList
 private struct TodayTaskListView: View {
-  @State var todayTaskList: [Task] = Mocks.mockTaskList
+  @State var todayTaskList: [Task] = Mocks.mockTaskList.filter {
+    $0.dueDate < .now
+  }
 
   fileprivate var body: some View {
     VStack(alignment: .leading) {
-      Text("Today's \(todayTaskList.count )tasks")
-        .padding(.horizontal)
+      HStack {
+        Text("Today's \(todayTaskList.count )tasks")
+
+        Spacer()
+
+        Button("Create") {
+          // TODO: - link CreateTaskView or CreateTaskSheet
+        }
+      }
+      .padding(.horizontal)
 
       List(todayTaskList, id: \.id) { task in
         HStack {
