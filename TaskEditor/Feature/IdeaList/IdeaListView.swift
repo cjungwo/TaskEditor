@@ -31,6 +31,7 @@ struct IdeaListView: View {
 
               Text("\(idea.createdDate.formatted(date: .abbreviated, time: .omitted))")
             }
+            .frame(height: 40)
           }
           .onDelete(perform: { indexSet in
             //

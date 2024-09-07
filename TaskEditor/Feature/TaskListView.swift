@@ -37,6 +37,7 @@ struct TaskListView: View {
 
               Text("\(task.dueDate.formatted(date: .abbreviated, time: .omitted))")
             }
+            .frame(height: 40)
           }
           .onDelete(perform: { indexSet in
             //
