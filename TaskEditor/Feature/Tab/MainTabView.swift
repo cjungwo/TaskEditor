@@ -20,11 +20,6 @@ struct MainTabView: View {
               Image(systemName: "square.and.pencil")
           }
 
-        IdeaListView()
-          .tabItem {
-              Image(systemName: "note.text")
-          }
-
         ProfileView()
           .tabItem {
               Image(systemName: "person")

@@ -42,12 +42,6 @@ private struct GreetingView: View {
 
       Text("Inspiring Idea")
         .font(.system(size: 24))
-
-      Text(Mocks.mockIdeaList.shuffled().first!.title)
-        .frame(width: 300)
-        .frame(minHeight: 120)
-        .background(.pink.opacity(0.3).gradient)
-        .clipShape(.buttonBorder)
     }
   }
 }
@@ -74,7 +68,7 @@ private struct TodayTaskListView: View {
       List(todayTaskList, id: \.id) { task in
         HStack {
           Button {
-            task.isDone.toggle()
+            //
           } label: {
             Image(systemName: task.isDone ? "checkmark.square.fill" :  "square")
               .imageScale(.large)

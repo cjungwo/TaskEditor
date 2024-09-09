@@ -51,11 +51,11 @@ struct ProfileView: View {
             Text("Priorities |")
 
             VStack {
-              Text("1st: \(Mocks.mockUser.typePriorityList[0]) ")
+              Text("1st: \(Mocks.mockUser.priorityList[0]) ")
 
-              Text("2nd: \(Mocks.mockUser.typePriorityList[1]) ")
+              Text("2nd: \(Mocks.mockUser.priorityList[1]) ")
 
-              Text("3rd: \(Mocks.mockUser.typePriorityList[2])")
+              Text("3rd: \(Mocks.mockUser.priorityList[2])")
             }
 
             Spacer()
@@ -118,18 +118,6 @@ private struct CurrentStatusView: View {
           .font(.system(size: 16))
 
         Text("\(Mocks.mockTaskList.count)")
-          .font(.system(size: 30))
-          .bold()
-      }
-
-      Spacer()
-        .frame(width: 100)
-
-      VStack(spacing: 16) {
-        Text("Idea")
-          .font(.system(size: 16))
-
-        Text("\(Mocks.mockIdeaList.count)")
           .font(.system(size: 30))
           .bold()
       }

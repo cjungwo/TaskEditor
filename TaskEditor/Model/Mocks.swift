@@ -8,9 +8,9 @@
 import Foundation
 
 struct Mocks {
-  static let mockUser = User(email: "test@gmail.com", password: "test1234", name: "Tester", birthDate: .now, gender: true, job: "Developer", position: "Frontend", priorityList: ["Study", "Work", "Play"])
+  static var mockUser = User(email: "test@gmail.com", password: "test1234", name: "Tester", birthDate: .now, gender: true, job: "Developer", position: "Frontend", priorityList: ["Study", "Work", "Play"])
 
-  static let mockTaskList = [
+  static var mockTaskList = [
     Task(title: "Task1", type: "Study", dueDate: .now, estimateTime: 2, importanceLevel: 1, urgencyLevel: 1),
     Task(title: "Task2", type: "Work", content: "This is content...", dueDate: .now, estimateTime: 16, importanceLevel: 2, urgencyLevel: 4),
     Task(title: "Task3", type: "Work", content: "This is content...", dueDate: .now, estimateTime: 9, importanceLevel: 1, urgencyLevel: 1),
