@@ -7,26 +7,42 @@
 
 import Foundation
 
-class Task: Script {
-  var taskType: String // TODO: - enum
+struct Task: Hashable, Equatable, Identifiable {
+  let id = UUID().uuidString
+
+  var title: String
+  var type: String
+  var content: String?
   var dueDate: Date
-  var priorityLevel: Int // TODO: - enum
+  var estimateTime: Int
+  var importanceLevel: Int
+  var urgencyLevel: Int
   var isDone: Bool
+
+  let createdDate: Date
+  var modifiedDate: Date
 
   init(
     title: String,
+    type: String,
     content: String? = nil,
-    createdDate: Date,
-    modifiedDate: Date,
-    taskType: String,
     dueDate: Date,
-    priorityLevel: Int,
-    isDone: Bool = false
+    estimateTime: Int,
+    importanceLevel: Int,
+    urgencyLevel: Int,
+    isDone: Bool = false,
+    createdDate: Date = .now,
+    modifiedDate: Date = .now
   ) {
-    self.taskType = taskType
+    self.title = title
+    self.type = type
+    self.content = content
     self.dueDate = dueDate
-    self.priorityLevel = priorityLevel
+    self.estimateTime = estimateTime
+    self.importanceLevel = importanceLevel
+    self.urgencyLevel = urgencyLevel
     self.isDone = isDone
-    super.init(title: title, content: content, createdDate: createdDate, modifiedDate: modifiedDate)
+    self.createdDate = createdDate
+    self.modifiedDate = modifiedDate
   }
 }

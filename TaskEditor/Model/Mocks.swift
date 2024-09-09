@@ -8,33 +8,17 @@
 import Foundation
 
 struct Mocks {
-  static var mockUser:  User = User(name: "Chris Choi", birthDate: .now, gender: true, job: "Developer", position: "Frontend", typePriorityList: ["Work", "Faith", "ETC"])
+  static let mockUser = User(email: "test@gmail.com", password: "test1234", name: "Tester", birthDate: .now, gender: true, job: "Developer", position: "Frontend", priorityList: ["Study", "Work", "Play"])
 
-  static var mockTaskList: [Task] = [
-    Task(title: "To study", content: "This is content", createdDate: .now, modifiedDate: .now, taskType: "Study", dueDate: .now, priorityLevel: 3),
-    Task(title: "To work", createdDate: .now, modifiedDate: .now, taskType: "Work", dueDate: .now, priorityLevel: 4, isDone: true),
-    Task(title: "To work", createdDate: .now, modifiedDate: .now, taskType: "Work", dueDate: .now, priorityLevel: 2),
-    Task(title: "To study", createdDate: .now, modifiedDate: .now, taskType: "Study", dueDate: .now, priorityLevel: 1),
-    Task(title: "To pray", content: "This is content", createdDate: .now, modifiedDate: .now, taskType: "Faith", dueDate: .now, priorityLevel: 3),
-    Task(title: "To study", createdDate: .now, modifiedDate: .now, taskType: "Study", dueDate: .now, priorityLevel: 3),
-    Task(title: "To work", createdDate: .now, modifiedDate: .now, taskType: "Work", dueDate: .now, priorityLevel: 4, isDone: true),
-    Task(title: "To work", content: "This is content", createdDate: .now, modifiedDate: .now, taskType: "Work", dueDate: .now, priorityLevel: 2),
-    Task(title: "To study", createdDate: .now, modifiedDate: .now, taskType: "Study", dueDate: .now, priorityLevel: 1),
-    Task(title: "To pray", createdDate: .now, modifiedDate: .now, taskType: "Faith", dueDate: .now, priorityLevel: 3),
-    Task(title: "To study", createdDate: .now, modifiedDate: .now, taskType: "Study", dueDate: .now, priorityLevel: 3),
-    Task(title: "To work", createdDate: .now, modifiedDate: .now, taskType: "Work", dueDate: .now, priorityLevel: 4, isDone: true),
-    Task(title: "To work", content: "This is content", createdDate: .now, modifiedDate: .now, taskType: "Work", dueDate: .now, priorityLevel: 2),
-    Task(title: "To study", createdDate: .now, modifiedDate: .now, taskType: "Study", dueDate: .now, priorityLevel: 1),
-    Task(title: "To pray", createdDate: .now, modifiedDate: .now, taskType: "Faith", dueDate: .now, priorityLevel: 3)
+  static let mockTaskList = [
+    Task(title: "Task1", type: "Study", dueDate: .now, estimateTime: 2, importanceLevel: 1, urgencyLevel: 1),
+    Task(title: "Task2", type: "Work", content: "This is content...", dueDate: .now, estimateTime: 16, importanceLevel: 2, urgencyLevel: 4),
+    Task(title: "Task3", type: "Work", content: "This is content...", dueDate: .now, estimateTime: 9, importanceLevel: 1, urgencyLevel: 1),
+    Task(title: "Task4", type: "Study", dueDate: .now, estimateTime: 6, importanceLevel: 3, urgencyLevel: 5),
+    Task(title: "Task5", type: "Study", content: "This is content...", dueDate: .now, estimateTime: 2, importanceLevel: 2, urgencyLevel: 1),
+    Task(title: "Task6", type: "Play", dueDate: .now, estimateTime: 1, importanceLevel: 3, urgencyLevel: 2),
+    Task(title: "Task7", type: "Study", dueDate: .now, estimateTime: 8, importanceLevel: 4, urgencyLevel: 1),
+    Task(title: "Task8", type: "Play",content: "This is content...",  dueDate: .now, estimateTime: 2, importanceLevel: 5, urgencyLevel: 4),
+    Task(title: "Task9", type: "Work", dueDate: .now, estimateTime: 48, importanceLevel: 1, urgencyLevel: 2)
   ]
-
-  static var mockIdeaList: [Idea] = [
-    Idea(title: "App Dev Idea", createdDate: .now, modifiedDate: .now, isImportant: true, ideaType: "App"),
-    Idea(title: "Web Dev Idea", content: "This is content", createdDate: .now, modifiedDate: .now, isImportant: false, ideaType: "Web"),
-    Idea(title: "App Design Idea", createdDate: .now, modifiedDate: .now, isImportant: false, ideaType: "App"),
-    Idea(title: "Web Design Idea", content: "This is content", createdDate: .now, modifiedDate: .now, isImportant: true, ideaType: "Web"),
-    Idea(title: "App Launching Idea", content: "This is content", createdDate: .now, modifiedDate: .now, isImportant: false, ideaType: "App"),
-    Idea(title: "Web Launching Idea", createdDate: .now, modifiedDate: .now, isImportant: false, ideaType: "Web")
-  ]
-
 }

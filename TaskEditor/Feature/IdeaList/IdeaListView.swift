@@ -33,9 +33,18 @@ struct IdeaListView: View {
             }
             .frame(height: 40)
           }
-          .onDelete(perform: { indexSet in
-            //
-          })
+          .swipeActions(edge: .trailing) {
+            Button("Delete") {
+              //
+            }
+            .tint(.red)
+          }
+          .swipeActions(edge: .leading) {
+            Button("Edit") {
+              //
+            }
+            .tint(.green)
+          }
         }
         .searchable(text: $text)
         .navigationTitle("Idea List")
