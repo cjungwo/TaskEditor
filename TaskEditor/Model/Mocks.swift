@@ -8,7 +8,7 @@
 import Foundation
 
 struct Mocks {
-  static var mockUser = User(email: "test@gmail.com", password: "test1234", name: "Tester", birthDate: .now, gender: true, job: "Developer", position: "Frontend", priorityList: ["Study", "Work", "Play"])
+  static var mockUser = User(email: "test@gmail.com", password: "test1234", name: "Tester", birthDate: .now, job: "Developer", position: "Frontend", priorityList: ["Study", "Work", "Play"])
 
   static var mockTaskList = [
     Task(title: "Task1", type: "Study", dueDate: .now, estimateTime: 2, importanceLevel: 1, urgencyLevel: 1),

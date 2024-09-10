@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
+  var user: User = Mocks.mockUser
+
   var body: some View {
     NavigationStack {
       VStack {
@@ -24,17 +26,9 @@ struct ProfileView: View {
             .fontWeight(.heavy)
 
           HStack {
-            Text("Gender |")
-
-            Mocks.mockUser.gender ? Text("Male") : Text("Female")
-
-            Spacer()
-          }
-
-          HStack {
             Text("BDay |")
 
-            Text("\(Mocks.mockUser.birthDate.formatted(date: .abbreviated, time: .omitted))")
+            Text("\(user.birthDate.formatted(date: .abbreviated, time: .omitted))")
 
             Spacer()
           }
@@ -42,7 +36,7 @@ struct ProfileView: View {
           HStack {
             Text("Job |")
 
-            Text("\(Mocks.mockUser.position) \(Mocks.mockUser.job)")
+            Text("\(user.position ?? " ") \(user.job ?? " ")")
 
             Spacer()
           }
@@ -50,12 +44,8 @@ struct ProfileView: View {
           HStack(alignment: .top) {
             Text("Priorities |")
 
-            VStack {
-              Text("1st: \(Mocks.mockUser.priorityList[0]) ")
-
-              Text("2nd: \(Mocks.mockUser.priorityList[1]) ")
-
-              Text("3rd: \(Mocks.mockUser.priorityList[2])")
+            ForEach(user.priorityList, id: \.self) { priority in
+              Text("\(priority)")
             }
 
             Spacer()
