@@ -8,11 +8,30 @@
 import SwiftUI
 
 struct LargeTextButton: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+
+  let title: String
+  let backgroundColor: Color
+  let textColor: Color
+  var action: () -> Void
+
+  var body: some View {
+    Button {
+      action()
+    } label: {
+      ZStack {
+        RoundedRectangle(cornerRadius: 10)
+          .foregroundStyle(backgroundColor)
+
+        Text(title)
+          .foregroundStyle(textColor)
+          .bold()
+      }
     }
+  }
 }
 
 #Preview {
-    LargeTextButton()
+  LargeTextButton(title: "Title", backgroundColor: .green, textColor: .white) {
+    //
+  }
 }
