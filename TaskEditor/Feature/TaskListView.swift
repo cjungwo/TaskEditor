@@ -8,63 +8,62 @@
 import SwiftUI
 
 struct TaskListView: View {
-  @State var text: String = ""
-    var body: some View {
-      NavigationStack {
-        // TODO: - priority sorting
-        List {
-          ForEach(Mocks.mockTaskList, id: \.id) { task in
-            HStack {
-              Button {
-                //
-              } label: {
-                Image(systemName: task.isDone ? "checkmark.square.fill" : "square")
-                  .imageScale(.large)
-              }
+  @StateObject var viewModel = TaskListViewModel()
 
-              VStack(alignment: .leading) {
-                Text(task.title)
-                  .bold()
-
-                if task.content != nil {
-                  Text(task.content!)
-                    .font(.subheadline)
-                    .lineLimit(1)
-                }
-              }
-
-              Spacer()
-
-              Text("\(task.dueDate.formatted(date: .abbreviated, time: .omitted))")
-            }
-            .frame(height: 40)
+  var body: some View {
+    NavigationStack {
+      // TODO: - priority sorting
+      ForEach(Mocks.mockTaskList, id: \.id) { task in
+        HStack {
+          Button {
+            //
+          } label: {
+            Image(systemName: task.isDone ? "checkmark.square.fill" : "square")
+              .imageScale(.large)
           }
-          .swipeActions(edge: .trailing) {
-            Button("Delete") {
-              //
+
+          VStack(alignment: .leading) {
+            Text(task.title)
+              .bold()
+
+            if task.content != nil {
+              Text(task.content!)
+                .font(.subheadline)
+                .lineLimit(1)
             }
-            .tint(.red)
           }
-          .swipeActions(edge: .leading) {
-            Button("Edit") {
-              //
-            }
-            .tint(.green)
-          }
+
+          Spacer()
+
+          Text("\(task.dueDate.formatted(date: .abbreviated, time: .omitted))")
         }
-        .searchable(text: $text)
-        .navigationTitle("Task List")
-        .toolbar {
-          ToolbarItem {
-            Button("Create") {
-              // TODO: - link CreateTaskView or CreateTaskSheet
-            }
-          }
+        .frame(height: 40)
+      }
+      .swipeActions(edge: .trailing) {
+        Button("Delete") {
+          //
+        }
+        .tint(.red)
+      }
+      .swipeActions(edge: .leading) {
+        Button("Edit") {
+          //
+        }
+        .tint(.green)
+      }
+    }
+    .searchable(text: $text)
+    .navigationTitle("Task List")
+    .toolbar {
+      ToolbarItem {
+        Button("Create") {
+          // TODO: - link CreateTaskView or CreateTaskSheet
         }
       }
     }
+  }
 }
 
 #Preview {
-    TaskListView()
+  TaskListView()
 }

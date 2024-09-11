@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Task: Hashable, Identifiable {
-  let id = UUID().uuidString
+struct Task: Codable, Identifiable {
+  var id = UUID().uuidString
 
   var title: String
   var type: String
@@ -44,5 +44,9 @@ struct Task: Hashable, Identifiable {
     self.isDone = isDone
     self.createdDate = createdDate
     self.modifiedDate = modifiedDate
+  }
+
+  mutating func setDone(_ state: Bool) {
+    isDone = state
   }
 }
