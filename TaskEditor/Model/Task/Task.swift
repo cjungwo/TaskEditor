@@ -25,7 +25,7 @@ struct Task: Codable, Identifiable {
   init(
     title: String,
     type: String,
-    content: String? = nil,
+    content: String? = "",
     dueDate: Date,
     estimateTime: Int,
     importanceLevel: Int,
@@ -48,5 +48,9 @@ struct Task: Codable, Identifiable {
 
   mutating func setDone(_ state: Bool) {
     isDone = state
+  }
+
+  mutating func updateModifiedDate() {
+    modifiedDate = .now
   }
 }
