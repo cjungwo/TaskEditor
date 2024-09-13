@@ -12,54 +12,40 @@ struct TaskListView: View {
 
   var body: some View {
     NavigationStack {
-      // TODO: - priority sorting
-      ForEach(Mocks.mockTaskList, id: \.id) { task in
-        HStack {
-          Button {
-            //
-          } label: {
-            Image(systemName: task.isDone ? "checkmark.square.fill" : "square")
-              .imageScale(.large)
+      VStack {
+        // HeaderView
+
+        ScrollView {
+          VStack {
+            ForEach(Mocks.mockTaskList, id: \.id) { task in
+              TaskCell(task: task)
+            }
+            .searchable(text: $viewModel.searchText)
           }
-
-          VStack(alignment: .leading) {
-            Text(task.title)
-              .bold()
-
-            if task.content != nil {
-              Text(task.content!)
-                .font(.subheadline)
-                .lineLimit(1)
+        }
+        .navigationTitle("Task List")
+        .toolbar {
+          ToolbarItem {
+            Button("Create") {
+              viewModel.tappedCreateTaskBtn()
             }
           }
-
-          Spacer()
-
-          Text("\(task.dueDate.formatted(date: .abbreviated, time: .omitted))")
         }
-        .frame(height: 40)
-      }
-      .swipeActions(edge: .trailing) {
-        Button("Delete") {
-          //
+        .sheet(isPresented: $viewModel.showCreateTaskView) {
+          CreateTaskSheet()
         }
-        .tint(.red)
-      }
-      .swipeActions(edge: .leading) {
-        Button("Edit") {
-          //
-        }
-        .tint(.green)
       }
     }
-    .searchable(text: $text)
-    .navigationTitle("Task List")
-    .toolbar {
-      ToolbarItem {
-        Button("Create") {
-          // TODO: - link CreateTaskView or CreateTaskSheet
-        }
-      }
+  }
+}
+
+// MARK: - CreateTaskSheet
+struct CreateTaskSheet: View {
+  var body: some View {
+    VStack {
+      Text("Create Task")
+
+
     }
   }
 }

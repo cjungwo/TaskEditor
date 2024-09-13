@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
+  @StateObject var viewModel = HomeViewModel()
+
   var body: some View {
     NavigationStack {
       VStack {
@@ -15,7 +17,7 @@ struct HomeView: View {
         GreetingView()
           .padding(.bottom)
 
-        TodayTaskListView()
+        TodayTaskListView(viewModel: viewModel)
       }
       .navigationTitle("TaskEditor")
     }
@@ -26,6 +28,9 @@ struct HomeView: View {
 private struct GreetingView: View {
   fileprivate var body: some View {
     VStack {
+      Spacer()
+        .frame(height: 16)
+
       HStack(spacing: 4) {
         Image(systemName: "hand.wave")
           .resizable()
@@ -39,16 +44,15 @@ private struct GreetingView: View {
 
       Spacer()
         .frame(height: 16)
-
-      Text("Inspiring Idea")
-        .font(.system(size: 24))
     }
   }
 }
 
 // MARK: - TodayTaskList
 private struct TodayTaskListView: View {
-  @State var todayTaskList: [Task] = Mocks.mockTaskList.filter {
+  @ObservedObject var viewModel: HomeViewModel
+
+  var todayTaskList: [Task] = Mocks.mockTaskList.filter {
     $0.dueDate < .now
   }
 
@@ -60,28 +64,15 @@ private struct TodayTaskListView: View {
         Spacer()
 
         Button("Create") {
-          // TODO: - link CreateTaskView or CreateTaskSheet
+          viewModel.tappedCreateTaskBtn()
         }
       }
       .padding(.horizontal)
 
-      List(todayTaskList, id: \.id) { task in
-        HStack {
-          Button {
-            //
-          } label: {
-            Image(systemName: task.isDone ? "checkmark.square.fill" :  "square")
-              .imageScale(.large)
-          }
-
-          VStack(alignment: .leading) {
-            Text(task.title)
-              .font(.title3)
-              .bold()
-
-            Text("\(task.dueDate.formatted(date: .abbreviated, time: .omitted))")
-              .font(.subheadline)
-              .foregroundStyle(.secondary)
+      ScrollView {
+        VStack {
+          ForEach(todayTaskList, id: \.id) { task in
+            TaskCell(task: task)
           }
         }
       }
