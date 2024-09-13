@@ -14,4 +14,11 @@ enum VXColor {
   static let vxOrange = Color(.vxOrange)
   static let vxSkyblue = Color(.vxSkyblue)
   static let vxDarkblue = Color(.vxDarkblue)
+
+  // TaskTypeColor
+  static let vxDirectPerformance = Color(.vxDirectPerformance)
+  static let vxIndirectPerformance = Color(.vxIndirectPerformance)
+  static let vxPersonalWork = Color(.vxPersonalWork)
+  static let vxSelfDevelopment = Color(.vxSelfDevelopment)
+  static let vxHumanNetwork = Color(.vxHumanNetwork)
 }
