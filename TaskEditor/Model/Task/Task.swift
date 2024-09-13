@@ -24,7 +24,7 @@ struct Task: Codable, Identifiable {
 
   init(
     title: String,
-    type: String,
+    type: TaskType,
     content: String? = "",
     dueDate: Date,
     estimateTime: Int,
@@ -35,7 +35,7 @@ struct Task: Codable, Identifiable {
     modifiedDate: Date = .now
   ) {
     self.title = title
-    self.type = type
+    self.type = type.rawValue
     self.content = content
     self.dueDate = dueDate
     self.estimateTime = estimateTime

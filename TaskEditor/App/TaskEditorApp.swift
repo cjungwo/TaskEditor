@@ -11,9 +11,12 @@ import SwiftUI
 struct TaskEditorApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
+  @StateObject var container: DIContainer = .init(services: Services())
+
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      AuthView(viewModel: .init(container: container))
+        .environmentObject(container)
     }
   }
 }

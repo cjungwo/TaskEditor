@@ -8,25 +8,29 @@
 import SwiftUI
 
 struct HomeView: View {
+  @EnvironmentObject var container: DIContainer
+
   @StateObject var viewModel = HomeViewModel()
 
   var body: some View {
     NavigationStack {
       VStack {
-        //      HeaderView()
-        GreetingView()
+        greetingView
           .padding(.bottom)
 
-        TodayTaskListView(viewModel: viewModel)
+        if !viewModel.tasks.isEmpty {
+          todayTaskListView
+        } else {
+          emptyTaskListView
+        }
       }
       .navigationTitle("TaskEditor")
     }
   }
-}
 
-// MARK: - GreetingView
-private struct GreetingView: View {
-  fileprivate var body: some View {
+
+  // MARK: - greetingView
+  private var greetingView: some View {
     VStack {
       Spacer()
         .frame(height: 16)
@@ -37,7 +41,7 @@ private struct GreetingView: View {
           .frame(width: 36, height: 36)
           .bold()
 
-        Text("Hi, " + Mocks.mockUser.name)
+        Text("Hi, " + (viewModel.user?.name ?? Mocks.mockUser.name))
           .font(.system(size: 42))
           .fontWeight(.heavy)
       }
@@ -46,20 +50,12 @@ private struct GreetingView: View {
         .frame(height: 16)
     }
   }
-}
 
-// MARK: - TodayTaskList
-private struct TodayTaskListView: View {
-  @ObservedObject var viewModel: HomeViewModel
-
-  var todayTaskList: [Task] = Mocks.mockTaskList.filter {
-    $0.dueDate < .now
-  }
-
-  fileprivate var body: some View {
+  // MARK: - todayTaskList
+  private var todayTaskListView: some View {
     VStack(alignment: .leading) {
       HStack {
-        Text("Today's \(todayTaskList.count )tasks")
+        Text("Today's \(viewModel.tasks.count)tasks")
 
         Spacer()
 
@@ -71,7 +67,7 @@ private struct TodayTaskListView: View {
 
       ScrollView {
         VStack {
-          ForEach(todayTaskList, id: \.id) { task in
+          ForEach(viewModel.tasks, id: \.id) { task in
             TaskCell(task: task)
           }
         }
@@ -79,8 +75,30 @@ private struct TodayTaskListView: View {
       .scrollIndicators(.hidden)
     }
   }
+
+  // MARK: - emptyTaskListView
+  private var emptyTaskListView: some View {
+    VStack {
+      Text("Today hasn't any task.")
+
+      Button {
+        viewModel.tappedCreateTaskBtn()
+      } label: {
+        Text("Create today's task")
+      }
+
+      Button {
+        viewModel.tappedGoToTaskListBtn()
+      } label: {
+        Text("View other tasks")
+      }
+
+      Spacer()
+    }
+  }
 }
 
 #Preview {
   HomeView()
+    .environmentObject(DIContainer(services: StubServices()))
 }

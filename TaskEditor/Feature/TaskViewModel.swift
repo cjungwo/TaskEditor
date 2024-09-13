@@ -6,3 +6,8 @@
 //
 
 import Foundation
+import FirebaseFirestore
+
+class TaskViewModel: ObservableObject {
+
+}

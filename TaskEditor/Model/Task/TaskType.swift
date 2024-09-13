@@ -14,4 +14,18 @@ enum TaskType: String {
   case selfDevelopment = "Self Development"
   case humanNetwork = "Human Network"
 
+  var color: Color {
+    switch self {
+    case .directPerformance:
+        .vxDirectPerformance
+    case .indirectPerformance:
+        .vxIndirectPerformance
+    case .personalWork:
+        .vxPersonalWork
+    case .selfDevelopment:
+        .vxSelfDevelopment
+    case .humanNetwork:
+        .vxHumanNetwork
+    }
+  }
 }

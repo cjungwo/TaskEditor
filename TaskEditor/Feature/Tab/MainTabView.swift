@@ -8,22 +8,30 @@
 import SwiftUI
 
 struct MainTabView: View {
+  @EnvironmentObject var container: DIContainer
+
   var body: some View {
-      TabView {
-        HomeView()
-          .tabItem {
-              Image(systemName: "house")
+    TabView {
+      ForEach(MainTab.allCases, id: \.self) { tab in
+        Group {
+          switch tab {
+          case .home:
+            HomeView()
+              .environmentObject(container)
+          case .taskList:
+            TaskListView()
+          case .profile:
+            ProfileView()
           }
-
-        TaskListView()
-          .tabItem {
-              Image(systemName: "square.and.pencil")
+        }
+        .tabItem {
+          Label {
+            Text(tab.rawValue.capitalized)
+          } icon: {
+            tab.icon
           }
-
-        ProfileView()
-          .tabItem {
-              Image(systemName: "person")
-          }
+        }
+      }
       }
       .tint(.vxDarkblue)
   }
@@ -31,4 +39,5 @@ struct MainTabView: View {
 
 #Preview {
   MainTabView()
+    .environmentObject(DIContainer.init(services: StubServices()))
 }

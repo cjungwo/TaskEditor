@@ -11,14 +11,12 @@ import Foundation
 
 class TaskService {
   @FirestoreQuery var tasks: [Task]
-  let task: Task
 
-  init(task: Task?) {
+  init() {
     self._tasks = FirestoreQuery(collectionPath: "/tasks")
-    self.task = task ?? Mocks.mockTaskList[0]
   }
 
-  private var validCheck: Bool {
+  private func validCheck(_ task: Task) -> Bool {
     guard !task.title.trimmingCharacters(in: .whitespaces).isEmpty else {
       return false
     }
@@ -40,15 +38,15 @@ extension TaskService {
 
 // MARK: - Post
 extension TaskService {
-  func createTask() {
-    guard validCheck else {
+  func createTask(task: Task) {
+    guard validCheck(task) else {
       return
     }
 
     // Create model
     let newTask = Task(
-      title: task.title,
-      type: task.type,
+      title: task.title, 
+      type: .directPerformance,
       content: task.content,
       dueDate: task.dueDate,
       estimateTime: task.estimateTime,
@@ -67,8 +65,8 @@ extension TaskService {
 
 // MARK: - Update
 extension TaskService {
-  func updateTask() {
-    guard validCheck else {
+  func updateTask(task: Task) {
+    guard validCheck(task) else {
       return
     }
 

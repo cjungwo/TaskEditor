@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct TaskView: View {
-    var body: some View {
-        Text("Hello, World!")
+  @StateObject var viewModel = TaskViewModel()
+
+  @State var task: Task = Mocks.mockTaskList[0]
+
+  var body: some View {
+    VStack {
+      
     }
+  }
 }
 
 #Preview {
-    TaskView()
+  TaskView()
 }

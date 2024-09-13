@@ -13,7 +13,7 @@ class TaskListViewModel: ObservableObject {
   @Published var showEditTaskView: Bool = false
   @Published var searchText: String = ""
 
-  var taskService = TaskService(task: nil)
+  var taskService = TaskService()
 
   // TODO: - tappedCreateTaskBtn
   func tappedCreateTaskBtn() {
