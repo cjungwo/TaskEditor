@@ -9,17 +9,14 @@ import Foundation
 
 class HomeViewModel: ObservableObject {
   @Published var user: User?
-  @Published var tasks: [Task] = Mocks.mockTaskList
+  @Published var tasks: [Task]
+  @Published var showCreateTaskView: Bool = false
 
-  // TODO: - tappedCreateTaskBtn
-  func tappedCreateTaskBtn() {
-    print("DEBUG: CreateTaskBtn Tapped")
-    // TODO: - link CreateTaskView or CreateTaskSheet
-  }
+  var container: DIContainer
 
-  // TODO: - tappedCreateTaskBtn
-  func tappedGoToTaskListBtn() {
-    print("DEBUG: GoToTaskListBtn Tapped")
-    // TODO: - link CreateTaskView or CreateTaskSheet
+  init(container: DIContainer) {
+    self.container = container
+//    self.tasks = container.services.taskService.getTasks()
+    self.tasks = Mocks.mockTaskList
   }
 }

@@ -8,17 +8,21 @@
 import Foundation
 
 protocol ServiceType {
-  var taskService: TaskService { get set }
+  var taskService: TaskServiceType { get set }
+  var authService: AuthServiceType { get set }
 }
 
 class Services: ServiceType {
-  var taskService: TaskService
+  var taskService: TaskServiceType
+  var authService: AuthServiceType
 
   init() {
-    taskService = TaskService()
+    taskService = TaskService(taskRepo: TaskRepository())
+    authService = AuthService(authRepo: AuthRepository())
   }
 }
 
 class StubServices: ServiceType {
-  var taskService: TaskService = TaskService()
+  var taskService: TaskServiceType = StubTaskService()
+  var authService: AuthServiceType = StubAuthService()
 }

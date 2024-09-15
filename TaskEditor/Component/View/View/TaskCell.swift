@@ -8,31 +8,16 @@
 import SwiftUI
 
 struct TaskCell: View {
-  var task: Task
-  var backgroundColor: Color
+  @EnvironmentObject var container: DIContainer
 
-  init(task: Task) {
-    self.task = task
-    backgroundColor = switch task.type {
-    case "Direct Performance":
-        .vxDirectPerformance
-    case "Indirect Performance":
-        .vxIndirectPerformance
-    case "Personal Work":
-        .vxPersonalWork
-    case "Self Development":
-        .vxSelfDevelopment
-    case "Human Network":
-        .vxHumanNetwork
-    default:
-        .vxWhite
-    }
-  }
+  var task: Task
+  var action: () -> Void
 
   var body: some View {
     HStack {
       Button {
-       print("DEBUG: IsDoneBtn Tapped")
+        print("DEBUG: IsDoneBtn Tapped")
+        action()
       } label: {
         Image(systemName: task.isDone ? "checkmark.square.fill" : "square")
           .imageScale(.large)
@@ -58,14 +43,25 @@ struct TaskCell: View {
       Spacer()
 
       Text("\(task.dueDate.formatted(date: .abbreviated, time: .omitted))")
+
+      NavigationLink {
+        TaskView(
+          viewModel: .init(task: task, container: container),
+          showCreateTaskView: .constant(true)
+        )
+      } label: {
+        Image(systemName: "chevron.right")
+          .imageScale(.large)
+          .tint(.vxBlack)
+      }
     }
     .frame(height: 52)
     .padding(.horizontal)
-    .background(backgroundColor.opacity(0.3))
+    .background(task.type.color.opacity(0.3))
   }
 }
 
 
 #Preview {
-  TaskCell(task: Mocks.mockTaskList[0])
+  TaskCell(task: Mocks.mockTaskList[0]) { }
 }

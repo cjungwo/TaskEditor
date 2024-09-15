@@ -8,11 +8,28 @@
 import SwiftUI
 
 struct SettingView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+  @StateObject var viewModel =  SettingViewModel()
+
+  var body: some View {
+    VStack {
+      ForEach(viewModel.user.priorityList, id: \.self) { priority in
+        HStack {
+          Text(priority.rawValue)
+        }
+        .frame(height: 36)
+        .background(priority.color)
+          .onDrag({
+            viewModel.draggedPriority = priority.rawValue
+            return NSItemProvider()
+          })
+          .onDrop(of: [.text],
+                  delegate: DragAndDropDelegate(destinationItem: priority.rawValue, priorities: $viewModel.priorities, draggedItem: $viewModel.draggedPriority)
+              )
+      }
     }
+  }
 }
 
 #Preview {
-    SettingView()
+  SettingView()
 }

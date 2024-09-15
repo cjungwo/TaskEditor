@@ -4,16 +4,21 @@
 //
 //  Created by JungWoo Choi on 13/9/2024.
 //
-
-import FirebaseAuth
-import FirebaseFirestore
 import Foundation
 
-class TaskService {
-  @FirestoreQuery var tasks: [Task]
+protocol TaskServiceType {
+  func getTasks() -> [Task]
+  func createTask(task: Task)
+  func toggleIsDone(task: Task)
+  func deleteTaskById(id: String)
+}
 
-  init() {
-    self._tasks = FirestoreQuery(collectionPath: "/tasks")
+class TaskService: TaskServiceType {
+  
+  private var taskRepo: TaskRepositoryType
+
+  init(taskRepo: TaskRepositoryType) {
+    self.taskRepo = taskRepo
   }
 
   private func validCheck(_ task: Task) -> Bool {
@@ -27,88 +32,48 @@ class TaskService {
 
     return true
   }
-}
 
-// MARK: - Get
-extension TaskService {
   func getTasks() -> [Task] {
-    return tasks
+    return taskRepo.getTasks().map { $0.toData() }
   }
-}
 
-// MARK: - Post
-extension TaskService {
   func createTask(task: Task) {
     guard validCheck(task) else {
       return
     }
 
-    // Create model
-    let newTask = Task(
-      title: task.title, 
-      type: .directPerformance,
-      content: task.content,
-      dueDate: task.dueDate,
-      estimateTime: task.estimateTime,
-      importanceLevel: task.importanceLevel,
-      urgencyLevel: task.urgencyLevel
-    )
+    taskRepo.addTask(task.toDTO())
 
-    // Save Model
-    let db = Firestore.firestore()
-
-    db.collection("tasks")
-      .document(newTask.id)
-      .setData(newTask.asDictionary())
-  }
-}
-
-// MARK: - Update
-extension TaskService {
-  func updateTask(task: Task) {
-    guard validCheck(task) else {
-      return
-    }
-
-    // Save Model
-    let db = Firestore.firestore()
-
-    db.collection("task")
-      .document(task.id)
-      .setData([
-        "id": task.id,
-        "title": task.title,
-        "type": task.type,
-        "content": task.content!,
-        "dueDate": task.dueDate.timeIntervalSince1970,
-        "estimateTime": task.estimateTime,
-        "importanceLevel": task.importanceLevel,
-        "urgencyLevel":  task.urgencyLevel,
-        "isDone": task.isDone,
-        "createdDate": task.createdDate,
-        "modifiedDate": task.modifiedDate
-      ])
+    print("DEBUG: taskRepo \(task.toDTO().self)")
   }
 
   func toggleIsDone(task: Task) {
     var taskCopy = task
     taskCopy.setDone(!task.isDone)
 
-    let db = Firestore.firestore()
-
-    db.collection("tasks")
-      .document(taskCopy.id)
-      .setData(taskCopy.asDictionary())
+    taskRepo.addTask(taskCopy.toDTO())
   }
+
+  func deleteTaskById(id: String) {
+    taskRepo.deleteTaskById(id)
+  }
+
 }
 
-// MARK: - Delete
-extension TaskService {
-  func deleteTaskById(_ id: String) {
-    let db = Firestore.firestore()
+class StubTaskService: TaskServiceType {
+  func toggleIsDone(task: Task) {
 
-    db.collection("tasks")
-      .document(id)
-      .delete()
+  }
+  
+  func deleteTaskById(id: String) {
+
+  }
+  
+  func getTasks() -> [Task] {
+    Mocks.mockTaskList
+  }
+  
+  func createTask(task: Task) {
+
   }
 }

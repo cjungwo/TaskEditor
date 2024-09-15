@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum TaskType: String {
+enum TaskType: String, CaseIterable {
   case directPerformance = "Direct Performance"
   case indirectPerformance = "Indirect Performance"
   case personalWork = "Personal Work"

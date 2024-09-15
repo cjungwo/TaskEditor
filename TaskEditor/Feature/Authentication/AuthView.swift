@@ -8,14 +8,23 @@
 import SwiftUI
 
 struct AuthView: View {
+  @EnvironmentObject var container: DIContainer
+
   @StateObject var viewModel: AuthViewModel
 
     var body: some View {
-      switch viewModel.authState {
-      case .unauthenticated:
-        SignInView()
-      case .authenticated:
-        MainTabView()
+      ZStack {
+        switch viewModel.authState {
+        case .unauthenticated:
+          SignInView()
+        case .authenticated:
+          MainTabView(viewModel: TaskListViewModel(container: container))
+            .environmentObject(container)
+        }
+      }
+      .onAppear {
+        viewModel.createUser()
+        viewModel.signIn()
       }
     }
 }

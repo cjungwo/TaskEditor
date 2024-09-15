@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 struct HomeView: View {
   @EnvironmentObject var container: DIContainer
-
-  @StateObject var viewModel = HomeViewModel()
+  @EnvironmentObject var viewModel: TaskListViewModel
 
   var body: some View {
     NavigationStack {
@@ -25,6 +25,16 @@ struct HomeView: View {
         }
       }
       .navigationTitle("TaskEditor")
+      .sheet(isPresented: $viewModel.showCreateTaskView,
+             content: {
+        TaskView(
+          viewModel: .init(task: Mocks.emptyTask, container: container),
+          showCreateTaskView: $viewModel.showCreateTaskView
+        )
+      })
+    }
+    .onAppear {
+      viewModel.updateTasks()
     }
   }
 
@@ -41,7 +51,7 @@ struct HomeView: View {
           .frame(width: 36, height: 36)
           .bold()
 
-        Text("Hi, " + (viewModel.user?.name ?? Mocks.mockUser.name))
+        Text("Hi, " + (viewModel.user.name))
           .font(.system(size: 42))
           .fontWeight(.heavy)
       }
@@ -55,7 +65,7 @@ struct HomeView: View {
   private var todayTaskListView: some View {
     VStack(alignment: .leading) {
       HStack {
-        Text("Today's \(viewModel.tasks.count)tasks")
+        Text("Today's \(viewModel.getTodayTasks().count)tasks")
 
         Spacer()
 
@@ -67,8 +77,10 @@ struct HomeView: View {
 
       ScrollView {
         VStack {
-          ForEach(viewModel.tasks, id: \.id) { task in
-            TaskCell(task: task)
+          ForEach(viewModel.orderPriorityOfTodayTasks(), id: \.id) { task in
+            TaskCell(task: task) {
+              viewModel.toggleIsDone(task: task)
+            }
           }
         }
       }
@@ -78,20 +90,29 @@ struct HomeView: View {
 
   // MARK: - emptyTaskListView
   private var emptyTaskListView: some View {
-    VStack {
+    VStack(spacing: 16) {
       Text("Today hasn't any task.")
 
-      Button {
-        viewModel.tappedCreateTaskBtn()
-      } label: {
-        Text("Create today's task")
-      }
+      Spacer()
 
-      Button {
-        viewModel.tappedGoToTaskListBtn()
-      } label: {
-        Text("View other tasks")
+      Group {
+        Button {
+          viewModel.tappedCreateTaskBtn()
+        } label: {
+          Text("Create today's task")
+        }
+
+        Button {
+          viewModel.tappedGoToTaskListBtn()
+        } label: {
+          Text("View other tasks")
+        }
       }
+      .frame(width: 250)
+      .padding()
+      .background(.vxIvory)
+      .clipShape(.capsule)
+      .tint(.vxBlack)
 
       Spacer()
     }
@@ -100,5 +121,6 @@ struct HomeView: View {
 
 #Preview {
   HomeView()
-    .environmentObject(DIContainer(services: StubServices()))
+    .environmentObject(TaskListViewModel(container: DIContainer(services: StubServices())))
+    .environmentObject(DIContainer.init(services: StubServices()))
 }

@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+class SettingViewModel: ObservableObject {
+  @Published var user: User = Mocks.mockUser
+  @Published var draggedPriority: String?
+  @Published var priorities: [String] = []
+
+  
+}

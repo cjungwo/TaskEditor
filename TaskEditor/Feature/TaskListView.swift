@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct TaskListView: View {
-  @StateObject var viewModel = TaskListViewModel()
+  @EnvironmentObject var container: DIContainer
+  @EnvironmentObject var viewModel: TaskListViewModel
+
 
   var body: some View {
     NavigationStack {
@@ -17,8 +19,10 @@ struct TaskListView: View {
 
         ScrollView {
           VStack {
-            ForEach(Mocks.mockTaskList, id: \.id) { task in
-              TaskCell(task: task)
+            ForEach(viewModel.filteredTasks, id: \.id) { task in
+              TaskCell(task: task) {
+                viewModel.toggleIsDone(task: task)
+              }
             }
             .searchable(text: $viewModel.searchText)
           }
@@ -32,24 +36,21 @@ struct TaskListView: View {
           }
         }
         .sheet(isPresented: $viewModel.showCreateTaskView) {
-          CreateTaskSheet()
+          TaskView(
+            viewModel: .init(task: Mocks.emptyTask, container: container),
+            showCreateTaskView: $viewModel.showCreateTaskView
+          )
+        }
+        .onAppear {
+          viewModel.updateTasks()
         }
       }
     }
   }
 }
 
-// MARK: - CreateTaskSheet
-struct CreateTaskSheet: View {
-  var body: some View {
-    VStack {
-      Text("Create Task")
-
-
-    }
-  }
-}
-
 #Preview {
   TaskListView()
+    .environmentObject(TaskListViewModel(container: DIContainer(services: StubServices())))
+    .environmentObject(DIContainer(services: StubServices()))
 }

@@ -9,35 +9,45 @@ import SwiftUI
 
 struct MainTabView: View {
   @EnvironmentObject var container: DIContainer
+  @StateObject var viewModel: TaskListViewModel
 
   var body: some View {
     TabView {
-      ForEach(MainTab.allCases, id: \.self) { tab in
-        Group {
-          switch tab {
-          case .home:
-            HomeView()
-              .environmentObject(container)
-          case .taskList:
-            TaskListView()
-          case .profile:
-            ProfileView()
-          }
-        }
+      HomeView()
+        .environmentObject(viewModel)
+        .environmentObject(container)
         .tabItem {
           Label {
-            Text(tab.rawValue.capitalized)
+            Text(MainTab.home.rawValue.capitalized)
           } icon: {
-            tab.icon
+            MainTab.home.icon
           }
         }
-      }
-      }
-      .tint(.vxDarkblue)
+
+      TaskListView()
+        .environmentObject(viewModel)
+        .environmentObject(container)
+        .tabItem {
+          Label {
+            Text(MainTab.taskList.rawValue.capitalized)
+          } icon: {
+            MainTab.taskList.icon
+          }
+        }
+      ProfileView(viewModel: .init(container: container))
+        .tabItem {
+          Label {
+            Text(MainTab.profile.rawValue.capitalized)
+          } icon: {
+            MainTab.profile.icon
+          }
+        }
+    }
+    .tint(.vxDarkblue)
   }
 }
 
 #Preview {
-  MainTabView()
-    .environmentObject(DIContainer.init(services: StubServices()))
+  MainTabView(viewModel: TaskListViewModel(container: DIContainer(services: StubServices())))
+    .environmentObject(DIContainer(services: StubServices()))
 }

@@ -8,52 +8,19 @@
 import SwiftUI
 
 struct ProfileView: View {
-  var user: User = Mocks.mockUser
+  @StateObject var viewModel: ProfileViewModel
 
   var body: some View {
     NavigationStack {
       VStack {
-        ProfileHeaderView()
-          .padding(.bottom, 24)
+        if let user = viewModel.user {
+          UserInfo(user: user)
+            .padding()
 
-        CurrentStatusView()
-
-        Divider()
-
-        VStack(alignment: .leading) {
-          Text("BIO")
-            .font(.system(size: 24))
-            .fontWeight(.heavy)
-
-          HStack {
-            Text("BDay |")
-
-            Text("\(user.birthDate.formatted(date: .abbreviated, time: .omitted))")
-
-            Spacer()
-          }
-
-          HStack {
-            Text("Job |")
-
-            Text("\(user.position ?? " ") \(user.job ?? " ")")
-
-            Spacer()
-          }
-
-          HStack(alignment: .top) {
-            Text("Priorities |")
-
-            ForEach(user.priorityList, id: \.self) { priority in
-              Text("\(priority)")
-            }
-
-            Spacer()
-          }
+          Spacer()
+        } else {
+          Text("Loading Profile ...")
         }
-        .padding(.horizontal)
-
-        Spacer()
       }
       .navigationTitle("Profile")
       .toolbar {
@@ -65,13 +32,35 @@ struct ProfileView: View {
           }
         }
       }
+      .onAppear {
+        viewModel.fetchUser()
+      }
     }
   }
 }
 
-// MARK: - ProfileHeaderView
-private struct ProfileHeaderView: View {
+private struct UserInfo: View {
+  var user: User
+
   fileprivate var body: some View {
+    VStack {
+    
+            profileHeaderView
+              .padding(.vertical, 24)
+    
+            currentStatusView
+    
+            Divider()
+    
+            basicUserInfoView
+              .padding(.horizontal)
+    
+            Spacer()
+          }
+  }
+
+  // MARK: - ProfileHeaderView
+  var profileHeaderView: some View {
     VStack {
       Image(systemName: "person.circle.fill")
         .resizable()
@@ -92,19 +81,29 @@ private struct ProfileHeaderView: View {
             }
         }
 
-      Text(Mocks.mockUser.name)
+      Text(user.name)
         .font(.system(size: 24))
         .bold()
     }
   }
-}
 
-// MARK: - CurrentStatusView
-private struct CurrentStatusView: View {
-  fileprivate var body: some View {
+  // MARK: - CurrentStatusView
+  var currentStatusView: some View {
     HStack {
       VStack(spacing: 16) {
-        Text("Task")
+        Text("Today")
+          .font(.system(size: 16))
+
+        Text("\(Mocks.mockTaskList.count)")
+          .font(.system(size: 30))
+          .bold()
+      }
+
+      Spacer()
+        .frame(width: 100)
+
+      VStack(spacing: 16) {
+        Text("Total")
           .font(.system(size: 16))
 
         Text("\(Mocks.mockTaskList.count)")
@@ -113,17 +112,50 @@ private struct CurrentStatusView: View {
       }
     }
   }
-}
 
-// MARK: - SettingNavigationView
-private struct SettingNavigationView: View {
-  fileprivate var body: some View {
-    VStack {
+  // MARK: - basicUserInfoView
+  var basicUserInfoView: some View {
+    VStack(alignment: .leading) {
+      Text("BIO")
+        .font(.system(size: 24))
+        .fontWeight(.heavy)
+        .padding(.bottom, 8)
 
+      HStack {
+        Text("BDay |")
+          .font(.system(size: 16, weight: .bold))
+
+        Text("\(user.birthDate.formatted(date: .abbreviated, time: .omitted))")
+
+        Spacer()
+      }
+
+      HStack {
+        Text("Job |")
+          .font(.system(size: 16, weight: .bold))
+
+        Text("\(user.position ?? " ") \(user.job ?? " ")")
+
+        Spacer()
+      }
+
+      HStack(alignment: .top) {
+        Text("Priority Order |")
+          .font(.system(size: 16, weight: .bold))
+
+        VStack(alignment: .leading) {
+          ForEach(user.priorityList, id: \.self) { priority in
+            Text("\(priority.rawValue.capitalized)")
+              .background(priority.color.opacity(0.5))
+          }
+        }
+      }
+
+      Spacer()
     }
   }
 }
 
 #Preview {
-  ProfileView()
+  ProfileView(viewModel: .init(container: .init(services: StubServices())))
 }

@@ -4,7 +4,7 @@
 - cjungwo
 
 ## Concept
-- Task management app to manage priority
+- Task management app to manage priority automatically using importance level, urgency level, due date, etc.
 
 ## Main Function
 - Task CRUD
@@ -14,7 +14,7 @@
 ## Tech Spec
 - Swift 6
 - Xcode 15.4
-- iOS 17.2
+- iOS 17.0
 
 ## Dependencies
 - Firebase 11.1.0
