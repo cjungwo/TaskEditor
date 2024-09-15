@@ -14,22 +14,22 @@ class TaskListViewModel: ObservableObject {
   @Published var showCreateTaskView: Bool = false
   @Published var searchText: String = ""
 
-  @FirestoreQuery var taskDTOList: [TaskDTO]
+//  @FirestoreQuery var taskDTOList: [TaskDTO]
 
   private var container: DIContainer
 
   init(container: DIContainer) {
     self.container = container
-//    self.tasks = container.services.taskService.getTasks()
-    self._taskDTOList = FirestoreQuery(collectionPath:
-      "/users/tbI1zlmClAMdoOqEgdv7cxy9usE2/tasks"
-    )
+    self.tasks = container.services.taskService.getTasks()
+//    self._taskDTOList = FirestoreQuery(collectionPath:
+//      "users/tbI1zlmClAMdoOqEgdv7cxy9usE2/tasks"
+//    )
 
-    print("DEBUG: \(_taskDTOList)")
+//    print("DEBUG: \(_taskDTOList)")
   }
 
   var filteredTasks: [Task] {
-    updateTask()
+//    updateTask()
    if searchText.isEmpty {
      return orderPriorityOfTasks(tasks)
    } else {
@@ -37,9 +37,10 @@ class TaskListViewModel: ObservableObject {
    }
  }
 
-  func updateTask() {
-    tasks = taskDTOList.map { $0.toData() }
-  }
+//
+//  func updateTask() {
+//    tasks = taskDTOList.map { $0.toData() }
+//  }
 
   // TODO: - tappedCreateTaskBtn
   func tappedCreateTaskBtn() {

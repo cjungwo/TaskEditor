@@ -19,4 +19,12 @@ class ProfileViewModel: ObservableObject {
   func fetchUser() {
     user = container.services.authService.fetchUser()
   }
+
+  func getTodayTasks() -> Int {
+    container.services.taskService.getTasks().count
+  }
+
+  func getTasks() -> Int {
+    container.services.taskService.getTasks().count
+  }
 }

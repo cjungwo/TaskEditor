@@ -14,7 +14,7 @@ struct ProfileView: View {
     NavigationStack {
       VStack {
         if let user = viewModel.user {
-          UserInfo(user: user)
+          UserInfo(viewModel: viewModel, user: user)
             .padding()
 
           Spacer()
@@ -40,6 +40,8 @@ struct ProfileView: View {
 }
 
 private struct UserInfo: View {
+  @ObservedObject var viewModel: ProfileViewModel
+
   var user: User
 
   fileprivate var body: some View {
@@ -94,7 +96,7 @@ private struct UserInfo: View {
         Text("Today")
           .font(.system(size: 16))
 
-        Text("\(Mocks.mockTaskList.count)")
+        Text("\(viewModel.getTodayTasks())")
           .font(.system(size: 30))
           .bold()
       }
@@ -106,7 +108,7 @@ private struct UserInfo: View {
         Text("Total")
           .font(.system(size: 16))
 
-        Text("\(Mocks.mockTaskList.count)")
+        Text("\(viewModel.getTasks())")
           .font(.system(size: 30))
           .bold()
       }
