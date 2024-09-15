@@ -10,27 +10,35 @@ import FirebaseFirestore
 
 class TaskListViewModel: ObservableObject {
   @Published var user: User = Mocks.mockUser
-  @Published var tasks: [Task]
+  @Published var tasks: [Task] = []
   @Published var showCreateTaskView: Bool = false
   @Published var searchText: String = ""
+
+  @FirestoreQuery var taskDTOList: [TaskDTO]
 
   private var container: DIContainer
 
   init(container: DIContainer) {
     self.container = container
-    self.tasks = container.services.taskService.getTasks()
+//    self.tasks = container.services.taskService.getTasks()
+    self._taskDTOList = FirestoreQuery(collectionPath:
+      "/users/tbI1zlmClAMdoOqEgdv7cxy9usE2/tasks"
+    )
+
+    print("DEBUG: \(_taskDTOList)")
   }
 
   var filteredTasks: [Task] {
+    updateTask()
    if searchText.isEmpty {
-     return orderPriorityOfTasks(getTodayTasks())
+     return orderPriorityOfTasks(tasks)
    } else {
-     return orderPriorityOfTasks(getTodayTasks()).filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+     return orderPriorityOfTasks(tasks).filter { $0.title.localizedCaseInsensitiveContains(searchText) }
    }
  }
 
-  func updateTasks() {
-    tasks = container.services.taskService.getTasks()
+  func updateTask() {
+    tasks = taskDTOList.map { $0.toData() }
   }
 
   // TODO: - tappedCreateTaskBtn
@@ -122,7 +130,7 @@ class TaskListViewModel: ObservableObject {
     }
 
     for task in notTodayTasks {
-      if task.dueDate.addingTimeInterval(TimeInterval(task.estimateTime*3600)) <= Date().addingTimeInterval(86400) {
+      if task.dueDate.addingTimeInterval(TimeInterval(-(task.estimateTime*3600))) <= Date().addingTimeInterval(86400) {
         todayTasks.append(task)
       }
     }

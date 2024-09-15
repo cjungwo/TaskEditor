@@ -33,9 +33,6 @@ struct HomeView: View {
         )
       })
     }
-    .onAppear {
-      viewModel.updateTasks()
-    }
   }
 
 

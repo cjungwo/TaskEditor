@@ -10,13 +10,14 @@ import FirebaseAuth
 import FirebaseFirestore
 
 protocol TaskRepositoryType {
+  var tasks: [TaskDTO] { get set }
+
   func addTask(_ taskDTO: TaskDTO)
   func getTasks() -> [TaskDTO]
   func deleteTaskById(_ id: String)
 }
 
 class TaskRepository: TaskRepositoryType {
-
   var tasks: [TaskDTO] = []
 
   func addTask(_ dto: TaskDTO) {
@@ -46,14 +47,14 @@ class TaskRepository: TaskRepositoryType {
       .document(uId)
       .collection("tasks")
       .getDocuments {
-        [weak self] snapshot,
+        snapshot,
         error in
         guard let documents = snapshot?.documents,
               error == nil else {
           return
         }
         for document in documents {
-          self?.tasks.append(
+          self.tasks.append(
             .init(
               id:  document["id"] as? String ?? "",
               title:  document["title"] as? String ?? "",
@@ -65,7 +66,7 @@ class TaskRepository: TaskRepositoryType {
               urgencyLevel:  document["urgencyLevel"] as? Int ?? 1,
               isDone: document["isDone"] as? Bool ?? false,
               createdDate: document["createDate"] as? TimeInterval ?? 0,
-              modifiedDate: document["modifiedDate"] as? TimeInterval ?? 0,
+              modifiedDate: document["modifiedDate"] as? TimeInterval ?? 0
             )
           )
         }

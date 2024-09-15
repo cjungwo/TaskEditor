@@ -41,9 +41,6 @@ struct TaskListView: View {
             showCreateTaskView: $viewModel.showCreateTaskView
           )
         }
-        .onAppear {
-          viewModel.updateTasks()
-        }
       }
     }
   }
